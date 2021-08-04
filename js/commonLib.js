@@ -27,6 +27,56 @@ class commonClass {
     }
 
 
+    checkProgress(startDatetime, endDatetime, actualPercentage) {
+
+        if (startDatetime === undefined) {
+            console.log('startDatetime is null');
+            return false
+        };
+
+
+        let retObj = {};
+        let today = new Date().getTime();
+
+
+        let passDay = this.datetimeDifference(today, startDatetime).day;
+
+
+        let duration = this.datetimeDifference(endDatetime, startDatetime).day;
+        retObj.forcastedPercentage = (duration > 0) ? Math.ceil(passDay / duration * 100) : 0;
+        retObj.duration = duration;
+        retObj.passDay = passDay;
+        retObj.actualPercentage = actualPercentage;
+        if (actualPercentage >= 100) {
+            retObj.status = 'good';
+        } else if (this.datetimeDifference(new Date().getTime(), endDatetime).day > 0) {
+            retObj.status = 'delay';
+        } else {
+            if (retObj.forcastedPercentage > actualPercentage) {
+                retObj.status = 'risk';
+            } else {
+                retObj.status = 'good';
+            }
+        }
+        return retObj;
+    }
+
+    checkImgExists(imgurl) {
+        var ImgObj = new Image(); //判断图片是否存在  
+        ImgObj.src = imgurl;
+
+        console.log(ImgObj.fileSize);
+
+        //没有图片，则返回-1  
+        if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
+            console.log('true:' + imgurl);
+
+            return true;
+        } else {
+            console.log('false:' + imgurl);
+            return false;
+        }
+    }
 
     datetimeDifference(dateStr1, dateStr2) {
         let date1 = this.datetimeTransferToDate(dateStr1);
@@ -88,59 +138,6 @@ class commonClass {
         }
     }
 
-    checkProgress(startDatetime, endDatetime, actualPercentage) {
-
-        if (startDatetime === undefined) {
-            console.log('startDatetime is null');
-            return false
-        };
-
-
-        let retObj = {};
-        let today = new Date().getTime();
-
-
-        let passDay = this.datetimeDifference(today, startDatetime).day;
-
-
-        let duration = this.datetimeDifference(endDatetime, startDatetime).day;
-        retObj.forcastedPercentage = (duration > 0) ? Math.ceil(passDay / duration * 100) : 0;
-        retObj.duration = duration;
-        retObj.passDay = passDay;
-        retObj.actualPercentage = actualPercentage;
-        if (actualPercentage >= 100) {
-            retObj.status = 'good';
-        } else if (this.datetimeDifference(new Date().getTime(), endDatetime).day > 0) {
-            retObj.status = 'delay';
-        } else {
-            if (retObj.forcastedPercentage > actualPercentage) {
-                retObj.status = 'risk';
-            } else {
-                retObj.status = 'good';
-            }
-        }
-        return retObj;
-
-
-    }
-
-
-    checkImgExists(imgurl) {
-        var ImgObj = new Image(); //判断图片是否存在  
-        ImgObj.src = imgurl;
-
-        console.log(ImgObj.fileSize);
-
-        //没有图片，则返回-1  
-        if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
-            console.log('true:' + imgurl);
-
-            return true;
-        } else {
-            console.log('false:' + imgurl);
-            return false;
-        }
-    }
 
     findIndexByKeyValue(arraytosearch, key, valuetosearch) {
         for (var i = 0; i < arraytosearch.length; i++) {
@@ -208,9 +205,6 @@ class commonClass {
 
 
 
-    showUserProfile(value, sourceFormat, DestFormat) {
-        return (this.prettyUserName(value))[DestFormat];
-    }
 
     prettyUserName(inputValue, sourceType) {
         let retObj = {};
@@ -299,4 +293,11 @@ class commonClass {
             return '> 5 weeks ' + tense;
         }
     }
+
+
+    showUserProfile(value, sourceFormat, DestFormat) {
+        return (this.prettyUserName(value))[DestFormat];
+    }
+
+
 }
