@@ -183,6 +183,25 @@ class commonClass {
     }
 
 
+    getObjByQueryString() {
+        var result = location.search.match(new RegExp("[\?\&][^\?\&]+=[^\?\&]+", "g"));
+        if (result == null) {
+            return "";
+        }
+
+        var theRequest = new Object();
+        for (var i = 0; i < result.length; i++) {
+            result[i] = result[i].substring(1);
+            pos = result[i].indexOf("=");
+            var objKey = result[i].substring(0, pos);
+            var parastr = result[i].substring(pos + 1);
+            theRequest[objKey] = parastr;
+
+        }
+        return theRequest;
+    }
+
+
     showUserProfile(value, sourceFormat, DestFormat)
     {
        return (this.prettyUserName(value))[DestFormat];
