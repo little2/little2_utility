@@ -208,7 +208,7 @@ class commonClass {
 
     prettyUserName(inputValue, sourceType) {
         let retObj = {};
-        let account = (inputValue).toLowerCase();
+        let account = (inputValue).toLowerCase().trim();
         let email = account;
 
         switch (sourceType) {
