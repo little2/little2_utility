@@ -78,6 +78,13 @@ class commonClass {
         }
     }
 
+    // Adjust datetime by day
+    datatimeAdujst(dateTimeValue, day) {
+        let dtObj = this.dateDatetimeFormat(dateTimeValue);       
+        let newDataTimeStamp = parseInt(dtObj.timestamp) + day*24*60*60*1000;       
+        return this.dateDatetimeFormat(newDataTimeStamp).dataObj;         
+    }
+
     datetimeDifference(dateStr1, dateStr2) {
         let date1 = this.datetimeTransferToDate(dateStr1);
         let date2 = this.datetimeTransferToDate(dateStr2);
@@ -94,10 +101,13 @@ class commonClass {
 
         var retObj = {};
         retObj.YMD = dtObj.getFullYear() + '/' + (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
-        retObj.MD = (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
+        retObj.MD = (dtObj.getMonth() + 1) + '/' + dtObj.getDate();        
+        retObj.HIS = dtObj.getHours() + ':' + dtObj.getMinutes()  + ':' + dtObj.getSeconds();
+        retObj.YMDHIS = retObj.YMD + ' '+retObj.HIS;
         retObj.timestamp = dtObj.getTime();
         retObj.source = dateTimeValue;
-        retObj.pretty = this.prettyDatetime(dateTimeValue)
+        retObj.pretty = this.prettyDatetime(dateTimeValue);
+        retObj.dataObj = dtObj;
         return retObj;
     }
 
