@@ -2,7 +2,17 @@ class commonClass {
     //静态属性
     //count = 2;
     //构造方法
-    constructor() {}
+    constructor() {
+
+        this.divisors = {
+            weeks: 1000 * 60 * 60 * 24 * 7,
+            days: 1000 * 60 * 60 * 24,
+            hours: 1000 * 60 * 60,
+            minutes: 1000 * 60,
+            seconds: 1000
+        };
+
+    }
 
     ajaxPromise(param) {
         return new Promise((resovle, reject) => {
@@ -92,7 +102,6 @@ class commonClass {
         let retObj = this.dateDurationFormat(difference);
         retObj.difference = difference;
         return retObj;
-
     }
 
     dateDatetimeFormat(dateTimeValue) {
@@ -112,22 +121,22 @@ class commonClass {
     }
 
     dateDurationFormat(value) {
-        var divisors = {
-            weeks: 1000 * 60 * 60 * 24 * 7,
-            days: 1000 * 60 * 60 * 24,
-            hours: 1000 * 60 * 60,
-            minutes: 1000 * 60,
-            seconds: 1000
-        };
+        // var divisors = {
+        //     weeks: 1000 * 60 * 60 * 24 * 7,
+        //     days: 1000 * 60 * 60 * 24,
+        //     hours: 1000 * 60 * 60,
+        //     minutes: 1000 * 60,
+        //     seconds: 1000
+        // };
 
         function _roundIt(v) {
             return parseFloat(v.toFixed(1));
         }
 
         var retObj = {};
-        retObj.day = _roundIt(value / divisors.days);
-        retObj.workday = _roundIt(value / divisors.days);
-        retObj.week = _roundIt(value / divisors.weeks);
+        retObj.day = _roundIt(value / this.divisors.days);
+        retObj.workday = _roundIt(value / this.divisors.days);
+        retObj.week = _roundIt(value / this.divisors.weeks);
         return retObj;
     }
 
@@ -149,6 +158,9 @@ class commonClass {
     }
 
 
+  
+
+
     findIndexByKeyValue(arraytosearch, key, valuetosearch) {
         for (var i = 0; i < arraytosearch.length; i++) {
             if (arraytosearch[i][key] == valuetosearch) {
@@ -158,6 +170,16 @@ class commonClass {
         return null;
     }
 
+    getYearWeek(dateTimeValue){  
+        let dtObj = this.datetimeTransferToDate(dateTimeValue);
+        let thisYearDate=new Date(dtObj.getFullYear(), 0, 1);  
+        let day1=dtObj.getDay()||7;  
+       // if(day1==0) day1=7;  
+        let day2=thisYearDate.getDay()||7;  
+        //if(day2==0) day2=7;  
+        let d = Math.round((dtObj.getTime() - thisYearDate.getTime()+(day2-day1)*(this.divisors.days)) / this.divisors.days);    
+        return Math.ceil(d /7);   
+    }
 
     getObjByQueryString() {
         var pos=0;
