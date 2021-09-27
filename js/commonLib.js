@@ -78,7 +78,7 @@ class commonClass {
         }
     }
 
-    // Adjust datetime by day
+    // Adjust datetime by day 
     datatimeAdujst(dateTimeValue, day) {
         let dtObj = this.dateDatetimeFormat(dateTimeValue);       
         let newDataTimeStamp = parseInt(dtObj.timestamp) + day*24*60*60*1000;       
