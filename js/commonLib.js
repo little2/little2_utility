@@ -107,8 +107,12 @@ class commonClass {
     dateDatetimeFormat(dateTimeValue) {
 
         let dtObj = this.datetimeTransferToDate(dateTimeValue);
+        
+        let MMM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
         var retObj = {};
+        retObj.MMM = MMM[dtObj.getMonth()];
+        retObj.MMMDD = retObj.MMM+ "-"+dtObj.getDate()+this.getOrdinalNum(dtObj.getDate());
         retObj.YMD = dtObj.getFullYear() + '/' + (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
         retObj.MD = (dtObj.getMonth() + 1) + '/' + dtObj.getDate();        
         retObj.HIS = dtObj.getHours() + ':' + dtObj.getMinutes()  + ':' + dtObj.getSeconds();
@@ -118,6 +122,13 @@ class commonClass {
         retObj.pretty = this.prettyDatetime(dateTimeValue);
         retObj.dataObj = dtObj;
         return retObj;
+
+
+    }
+
+
+    getOrdinalNum(n) {
+        return (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
     }
 
     dateDurationFormat(value) {
@@ -181,14 +192,16 @@ class commonClass {
         return Math.ceil(d /7);   
     }
 
-    getObjByQueryString() {
+    getObjByQueryString(url) {
+        var theRequest = new Object();
+        if(url==null) url = location.search;
         var pos=0;
-        var result = location.search.match(new RegExp("[\?\&][^\?\&]+=[^\?\&]+", "g"));
+        var result = url.match(new RegExp("[\?\&][^\?\&]+=[^\?\&]+", "g"));
         if (result == null) {
-            return "";
+            return theRequest;
         }
 
-        var theRequest = new Object();
+       
         for (var i = 0; i < result.length; i++) {
             result[i] = result[i].substring(1);
             pos = result[i].indexOf("=");
@@ -199,6 +212,20 @@ class commonClass {
         }
         return theRequest;
     }
+
+    getURLDocumentName(url) {
+        if(url==null) url = location.href;     
+        var loc = url.substring(url.lastIndexOf('/')+1,url.length).replace('#','');          
+        if(loc.lastIndexOf('?')>=0) loc= loc.substring(0,loc.lastIndexOf('?') );    
+        return loc;
+    }
+
+    parseURL(url) {
+       let theRequest = this.getObjByQueryString(url);      
+       theRequest['URLDocumentName']=this.getURLDocumentName(url);
+       return theRequest;
+    }
+
 
     loadJS(url, callback) {
         var script = document.createElement('script'),
