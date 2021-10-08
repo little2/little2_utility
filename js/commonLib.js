@@ -163,8 +163,8 @@ class commonClass {
             //date = new Date(inputValue);
             return inputValue;
         } else {
-            console.log(inputValue);
-            console.log('unknown type:' + typeof (inputValue) + ' value:' + inputValue)
+         
+            console.log(inputValue+' unknown type:' + typeof (inputValue) + ' value:' + inputValue)
         }
     }
 
