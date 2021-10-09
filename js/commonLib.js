@@ -89,10 +89,14 @@ class commonClass {
     }
 
     // Adjust datetime by day , day = number
-    datatimeAdujst(dateTimeValue, day) {
-        let dtObj = this.dateDatetimeFormat(dateTimeValue);       
-        let newDataTimeStamp = parseInt(dtObj.timestamp) + day*24*60*60*1000;       
-        return this.dateDatetimeFormat(newDataTimeStamp).dataObj;         
+    datatimeAdujst(dateTimeValue, day, returnType) {
+        let dtObj = this.dateDatetimeFormat(dateTimeValue);
+        let newDataTimeStamp = parseInt(dtObj.timestamp) + day * 24 * 60 * 60 * 1000;
+        if (returnType) {
+            return this.dateDatetimeFormat(newDataTimeStamp)[returnType];
+        } else {
+            return this.dateDatetimeFormat(newDataTimeStamp).dataObj;
+        }
     }
 
     datetimeDifference(dateStr1, dateStr2) {
@@ -105,23 +109,32 @@ class commonClass {
     }
 
     dateDatetimeFormat(dateTimeValue) {
+        // if(!dateTimeValue || dateTimeValue==undefined) {
+        //     console.log('dateTimeValue is '+dateTimeValue);
+        //     return false;
+        // }
+        try{
+            let dtObj = this.datetimeTransferToDate(dateTimeValue);
 
-        let dtObj = this.datetimeTransferToDate(dateTimeValue);
-        
-        let MMM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-        var retObj = {};
-        retObj.MMM = MMM[dtObj.getMonth()];
-        retObj.MMMDD = retObj.MMM+ "-"+dtObj.getDate()+this.getOrdinalNum(dtObj.getDate());
-        retObj.YMD = dtObj.getFullYear() + '/' + (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
-        retObj.MD = (dtObj.getMonth() + 1) + '/' + dtObj.getDate();        
-        retObj.HIS = dtObj.getHours() + ':' + dtObj.getMinutes()  + ':' + dtObj.getSeconds();
-        retObj.YMDHIS = retObj.YMD + ' '+retObj.HIS;
-        retObj.timestamp = dtObj.getTime();
-        retObj.source = dateTimeValue;
-        retObj.pretty = this.prettyDatetime(dateTimeValue);
-        retObj.dataObj = dtObj;
-        return retObj;
+            let MMM = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+            var retObj = {};
+            retObj.MMM = MMM[dtObj.getMonth()];
+            retObj.MMMDD = retObj.MMM + "-" + dtObj.getDate() + this.getOrdinalNum(dtObj.getDate());
+            retObj.YMD = dtObj.getFullYear() + '/' + (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
+            retObj.MD = (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
+            retObj.HIS = dtObj.getHours() + ':' + dtObj.getMinutes() + ':' + dtObj.getSeconds();
+            retObj.YMDHIS = retObj.YMD + ' ' + retObj.HIS;
+            retObj.timestamp = dtObj.getTime();
+            retObj.source = dateTimeValue;
+            retObj.pretty = this.prettyDatetime(dateTimeValue);
+            retObj.dataObj = dtObj;
+            return retObj;
+        }
+        catch(e){
+            console.log(e);
+            console.log(dateTimeValue);
+        }
 
 
     }
@@ -163,8 +176,8 @@ class commonClass {
             //date = new Date(inputValue);
             return inputValue;
         } else {
-         
-            console.log(inputValue+' unknown type:' + typeof (inputValue) + ' value:' + inputValue)
+
+            console.log(inputValue + ' unknown type:' + typeof (inputValue) + ' value:' + inputValue)
         }
     }
 
@@ -177,27 +190,27 @@ class commonClass {
         return null;
     }
 
-    getYearWeek(dateTimeValue){  
+    getYearWeek(dateTimeValue) {
         let dtObj = this.datetimeTransferToDate(dateTimeValue);
-        let thisYearDate=new Date(dtObj.getFullYear(), 0, 1);  
-        let day1=dtObj.getDay()||7;  
-       // if(day1==0) day1=7;  
-        let day2=thisYearDate.getDay()||7;  
+        let thisYearDate = new Date(dtObj.getFullYear(), 0, 1);
+        let day1 = dtObj.getDay() || 7;
+        // if(day1==0) day1=7;  
+        let day2 = thisYearDate.getDay() || 7;
         //if(day2==0) day2=7;  
-        let d = Math.round((dtObj.getTime() - thisYearDate.getTime()+(day2-day1)*(this.divisors.days)) / this.divisors.days);    
-        return Math.ceil(d /7);   
+        let d = Math.round((dtObj.getTime() - thisYearDate.getTime() + (day2 - day1) * (this.divisors.days)) / this.divisors.days);
+        return Math.ceil(d / 7);
     }
 
     getObjByQueryString(url) {
         var theRequest = new Object();
-        if(url==null) url = location.search;
-        var pos=0;
+        if (url == null) url = location.search;
+        var pos = 0;
         var result = url.match(new RegExp("[\?\&][^\?\&]+=[^\?\&]+", "g"));
         if (result == null) {
             return theRequest;
         }
 
-       
+
         for (var i = 0; i < result.length; i++) {
             result[i] = result[i].substring(1);
             pos = result[i].indexOf("=");
@@ -210,16 +223,16 @@ class commonClass {
     }
 
     getURLDocumentName(url) {
-        if(url==null) url = location.href;     
-        var loc = url.substring(url.lastIndexOf('/')+1,url.length).replace('#','');          
-        if(loc.lastIndexOf('?')>=0) loc= loc.substring(0,loc.lastIndexOf('?') );    
+        if (url == null) url = location.href;
+        var loc = url.substring(url.lastIndexOf('/') + 1, url.length).replace('#', '');
+        if (loc.lastIndexOf('?') >= 0) loc = loc.substring(0, loc.lastIndexOf('?'));
         return loc;
     }
 
     parseURL(url) {
-       let theRequest = this.getObjByQueryString(url);      
-       theRequest['URLDocumentName']=this.getURLDocumentName(url);
-       return theRequest;
+        let theRequest = this.getObjByQueryString(url);
+        theRequest['URLDocumentName'] = this.getURLDocumentName(url);
+        return theRequest;
     }
 
 
@@ -249,7 +262,7 @@ class commonClass {
      * 动态加载CSS
      * @param {string} url 样式地址
      */
-     loadCss(url) {
+    loadCss(url) {
         var head = document.getElementsByTagName('head')[0];
         var link = document.createElement('link');
         link.type = 'text/css';
@@ -351,8 +364,26 @@ class commonClass {
 
 
     showUserProfile(value, sourceFormat, DestFormat) {
-        return (this.prettyUserName(value))[DestFormat];
+        return (this.prettyUserName(value,sourceFormat))[DestFormat];
     }
 
+    setLocalStorage(title, content) {
+        try {
+            window.localStorage.setItem(title, content)
+
+        } catch (e) {
+            this.clearLocalStorage()
+            window.localStorage.setItem(title, content)
+        } finally {
+
+        }
+    }
+    
+    clearLocalStorage() {
+        let storage = window.localStorage;
+        for (var i = 0; i < storage.length; i++) {
+            window.localStorage.removeItem(storage.key(i))
+        }
+    }
 
 }
