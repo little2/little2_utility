@@ -44,23 +44,21 @@ class commonClass {
             return false
         };
 
-
         let retObj = {};
         let today = new Date().getTime();
 
-
         let passDay = this.datetimeDifference(today, startDatetime).day;
-
-
         let duration = this.datetimeDifference(endDatetime, startDatetime).day;
+        let delayDays = 0;
         retObj.forcastedPercentage = (duration > 0) ? Math.ceil(passDay / duration * 100) : 0;
         retObj.duration = duration;
         retObj.passDay = passDay;
         retObj.actualPercentage = actualPercentage;
         if (actualPercentage >= 100) {
             retObj.status = 'good';
-        } else if (this.datetimeDifference(new Date().getTime(), endDatetime).day > 0) {
+        } else if ((delayDays= this.datetimeDifference(new Date().getTime(), endDatetime).day) > 0) {
             retObj.status = 'delay';
+            retObj.delayDays = delayDays;
         } else {
             if (retObj.forcastedPercentage > actualPercentage) {
                 retObj.status = 'risk';
@@ -176,7 +174,6 @@ class commonClass {
             //date = new Date(inputValue);
             return inputValue;
         } else {
-
             console.log(inputValue + ' unknown type:' + typeof (inputValue) + ' value:' + inputValue)
         }
     }
@@ -190,15 +187,30 @@ class commonClass {
         return null;
     }
 
-    getYearWeek(dateTimeValue) {
-        let dtObj = this.datetimeTransferToDate(dateTimeValue);
-        let thisYearDate = new Date(dtObj.getFullYear(), 0, 1);
-        let day1 = dtObj.getDay() || 7;
-        // if(day1==0) day1=7;  
-        let day2 = thisYearDate.getDay() || 7;
-        //if(day2==0) day2=7;  
-        let d = Math.round((dtObj.getTime() - thisYearDate.getTime() + (day2 - day1) * (this.divisors.days)) / this.divisors.days);
-        return Math.ceil(d / 7);
+    getYearWeek(dateTimeValue,return_type) {      
+        let thisDate = this.datetimeTransferToDate(dateTimeValue);
+        let thisYearDate = new Date(thisDate.getFullYear(), 0, 1);        
+        //let day1 = thisDate.getDay() || 7;
+        let dayOf1day = thisYearDate.getDay() || 7;
+        let stuffDay;  //to fill stuff day make the 1st day of year 7 days.
+
+        switch(return_type)
+        {
+            case 2:     //Start from Monday
+                stuffDay = dayOf1day-1;
+            break;
+
+            default:    //start from Sunday
+                stuffDay = dayOf1day;
+            break;
+        }
+
+        let YTD = this.datetimeDifference(thisDate, thisYearDate).day;      
+        let weekNum = Math.floor( (YTD + stuffDay)/7) + 1
+      
+        return weekNum;
+
+ 
     }
 
     getObjByQueryString(url) {
@@ -210,14 +222,12 @@ class commonClass {
             return theRequest;
         }
 
-
         for (var i = 0; i < result.length; i++) {
             result[i] = result[i].substring(1);
             pos = result[i].indexOf("=");
             var objKey = result[i].substring(0, pos);
             var parastr = result[i].substring(pos + 1);
             theRequest[objKey] = parastr;
-
         }
         return theRequest;
     }
