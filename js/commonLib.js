@@ -87,16 +87,7 @@ class commonClass {
     }
 
 
-    clearLocalStorage(){
-        let storage = window.localStorage;
-        for ( var i =0; i < storage.length ; i++ ) {
-          window.localStorage.removeItem( storage.key( i ) )
-        }
-    }
 
-    setLocalStorage(title, content){
-        window.localStorage.setItem(title,content)
-    }
 
     // Adjust datetime by day , day = number
     datatimeAdujst(dateTimeValue, day, returnType) {
@@ -225,28 +216,6 @@ class commonClass {
  
     }
 
-
-    getYearWeek2(dateTimeValue){  
-        let dtObj = this.datetimeTransferToDate(dateTimeValue);
-
-        // console.log('datObj'+dtObj);
-
-        let thisYearDate=new Date(dtObj.getFullYear(), 0, 1);  
-        // console.log('thisYearDate'+thisYearDate);
-        
-        let day1=dtObj.getDay()||7;  //what's day is specific day
-        // console.log('getDay:'+dtObj.getDay(),day1)
-       
-        // if(day1==0) day1=7;  
-        let day2=thisYearDate.getDay()||7;    //what's day is the first day in the year.
-        // console.log('thisYearDate:'+dtObj.getDay(),day2)
-
-        let ds = Math.ceil( ( dtObj.getTime() - thisYearDate.getTime() ) / this.divisors.days ) +1;
-        console.log('d='+ds);
-        //if(day2==0) day2=7;  
-        let d = Math.round((dtObj.getTime() - thisYearDate.getTime()+(day2-day1)*(this.divisors.days)) / this.divisors.days);    
-        return Math.ceil(d /7);   
-    }
 
 
     getObjByQueryString(url) {
