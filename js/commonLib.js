@@ -55,7 +55,7 @@ class commonClass {
         retObj.passDay = passDay;
         retObj.actualPercentage = actualPercentage;
         if (actualPercentage >= 100) {
-            retObj.status = 'good';
+            retObj.status = 'complete';
         } else if ((delayDays= this.datetimeDifference(new Date().getTime(), endDatetime).day) > 0) {
             retObj.status = 'delay';
             retObj.delayDays = delayDays;
@@ -382,13 +382,18 @@ class commonClass {
         return (this.prettyUserName(value,sourceFormat))[DestFormat];
     }
 
-    setLocalStorage(title, content) {
+
+
+
+    setLocalStorage(content, title) {
+        if(!title) title = this.localStorageTitle;
         try {
-            window.localStorage.setItem(title, content)
+            window.localStorage.setItem(title, JSON.stringify(content))
 
         } catch (e) {
-            this.clearLocalStorage()
-            window.localStorage.setItem(title, content)
+            this.clearLocalStorage();
+            console.log(e);
+            window.localStorage.setItem(title, JSON.stringify(content))
         } finally {
 
         }
