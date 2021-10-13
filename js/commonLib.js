@@ -290,6 +290,12 @@ class commonClass {
 
 
     prettyUserName(inputValue, sourceType) {
+        if(inputValue==null||inputValue=='')
+        {                
+            return {};
+        } 
+
+
         let retObj = {};
         let account = (inputValue).toLowerCase().trim();
         let email = account;
@@ -308,7 +314,18 @@ class commonClass {
         let accountRow = account.split('.');
         for (let i = 0; i < accountRow.length; i++) {
             let str = accountRow[i];
-            accountRow[i] = (accountRow[i]).replace(str[0], str[0].toUpperCase())
+            let newStr;
+            try{
+                newStr = str[0].toUpperCase();
+                accountRow[i] = (accountRow[i]).replace(str[0], str[0].toUpperCase())
+            }
+            catch(e)
+            {             
+                console.log(e);
+            }
+           
+            
+            
         }
 
 
