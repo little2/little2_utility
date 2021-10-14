@@ -408,9 +408,9 @@ class commonClass {
             window.localStorage.setItem(title, JSON.stringify(content))
 
         } catch (e) {
-            this.clearLocalStorage();
+            //this.clearLocalStorage();
             console.log(e);
-            window.localStorage.setItem(title, JSON.stringify(content))
+            //window.localStorage.setItem(title, JSON.stringify(content))
         } finally {
 
         }
