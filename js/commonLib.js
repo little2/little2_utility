@@ -38,13 +38,13 @@ class commonClass {
 
 
     checkProgress(startDatetime, endDatetime, actualPercentage) {
-
+        let retObj = {};
         if (startDatetime === undefined) {
-            console.log('startDatetime is null');
-            return false
+            //  console.log('startDatetime is null:'+startDatetime);
+            return retObj
         };
 
-        let retObj = {};
+        
         let today = new Date().getTime();
 
         let passDay = this.datetimeDifference(today, startDatetime).day;
@@ -404,6 +404,7 @@ class commonClass {
 
     setLocalStorage(content, title) {
         if(!title) title = this.localStorageTitle;
+        
         try {
             window.localStorage.setItem(title, JSON.stringify(content))
 
