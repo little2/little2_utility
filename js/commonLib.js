@@ -44,7 +44,7 @@ class commonClass {
             return retObj
         };
 
-        
+
         let today = new Date().getTime();
 
         let passDay = this.datetimeDifference(today, startDatetime).day;
@@ -56,7 +56,7 @@ class commonClass {
         retObj.actualPercentage = actualPercentage;
         if (actualPercentage >= 100) {
             retObj.status = 'complete';
-        } else if ((delayDays= this.datetimeDifference(new Date().getTime(), endDatetime).day) > 0) {
+        } else if ((delayDays = this.datetimeDifference(new Date().getTime(), endDatetime).day) > 0) {
             retObj.status = 'delay';
             retObj.delayDays = delayDays;
         } else {
@@ -114,11 +114,11 @@ class commonClass {
         //     console.log('dateTimeValue is '+dateTimeValue);
         //     return false;
         // }
-        try{
+        try {
             let dtObj = this.datetimeTransferToDate(dateTimeValue);
 
             let MMM = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
+
             var retObj = {};
             retObj.MMM = MMM[dtObj.getMonth()];
             retObj.MMMDD = retObj.MMM + "-" + dtObj.getDate() + this.getOrdinalNum(dtObj.getDate());
@@ -131,8 +131,7 @@ class commonClass {
             retObj.pretty = this.prettyDatetime(dateTimeValue);
             retObj.dataObj = dtObj;
             return retObj;
-        }
-        catch(e){
+        } catch (e) {
             console.log(e);
             console.log(dateTimeValue);
         }
@@ -190,30 +189,29 @@ class commonClass {
         return null;
     }
 
-    getYearWeek(dateTimeValue,return_type) {      
+    getYearWeek(dateTimeValue, return_type) {
         let thisDate = this.datetimeTransferToDate(dateTimeValue);
-        let thisYearDate = new Date(thisDate.getFullYear(), 0, 1);        
+        let thisYearDate = new Date(thisDate.getFullYear(), 0, 1);
         //let day1 = thisDate.getDay() || 7;
         let dayOf1day = thisYearDate.getDay() || 7;
-        let stuffDay;  //to fill stuff day make the 1st day of year 7 days.
+        let stuffDay; //to fill stuff day make the 1st day of year 7 days.
 
-        switch(return_type)
-        {
-            case 2:     //Start from Monday
-                stuffDay = dayOf1day-1;
-            break;
+        switch (return_type) {
+            case 2: //Start from Monday
+                stuffDay = dayOf1day - 1;
+                break;
 
-            default:    //start from Sunday
+            default: //start from Sunday
                 stuffDay = dayOf1day;
-            break;
+                break;
         }
 
-        let YTD = this.datetimeDifference(thisDate, thisYearDate).day;      
-        let weekNum = Math.floor( (YTD + stuffDay)/7) + 1
-      
+        let YTD = this.datetimeDifference(thisDate, thisYearDate).day;
+        let weekNum = Math.floor((YTD + stuffDay) / 7) + 1
+
         return weekNum;
 
- 
+
     }
 
 
@@ -290,10 +288,9 @@ class commonClass {
 
 
     prettyUserName(inputValue, sourceType) {
-        if(inputValue==null||inputValue=='')
-        {                
+        if (inputValue == null || inputValue == '') {
             return {};
-        } 
+        }
 
 
         let retObj = {};
@@ -315,17 +312,15 @@ class commonClass {
         for (let i = 0; i < accountRow.length; i++) {
             let str = accountRow[i];
             let newStr;
-            try{
+            try {
                 newStr = str[0].toUpperCase();
                 accountRow[i] = (accountRow[i]).replace(str[0], str[0].toUpperCase())
-            }
-            catch(e)
-            {             
+            } catch (e) {
                 console.log(e);
             }
-           
-            
-            
+
+
+
         }
 
 
@@ -396,15 +391,15 @@ class commonClass {
 
 
     showUserProfile(value, sourceFormat, DestFormat) {
-        return (this.prettyUserName(value,sourceFormat))[DestFormat];
+        return (this.prettyUserName(value, sourceFormat))[DestFormat];
     }
 
 
 
 
     setLocalStorage(content, title) {
-        if(!title) title = this.localStorageTitle;
-        
+        if (!title) title = this.localStorageTitle;
+
         try {
             window.localStorage.setItem(title, JSON.stringify(content))
 
@@ -416,12 +411,24 @@ class commonClass {
 
         }
     }
-    
+
     clearLocalStorage() {
         let storage = window.localStorage;
         for (var i = 0; i < storage.length; i++) {
             window.localStorage.removeItem(storage.key(i))
         }
+    }
+
+    // zerofill(numb, 5, 'left/right');
+    zeroFill(numb, legth, direction) {
+        let result = numb.toString();
+        for (let i = result.length; i < legth; i++) {
+            if (direction == 'left')
+                result = '0' + result;
+            else
+                result = result + '0';
+        }
+        return result;
     }
 
 }
