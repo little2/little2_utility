@@ -50,7 +50,7 @@ class commonClass {
         let passDay = this.datetimeDifference(today, startDatetime).day;
         let duration = this.datetimeDifference(endDatetime, startDatetime).day;
         let delayDays = 0;
-        retObj.forcastedPercentage = (duration > 0) ? Math.ceil(passDay / duration * 100) : 0;
+        retObj.forecastedPercentage = (passDay <= 0 )? 0 : ( (duration > 0) ? Math.ceil( Math.min(passDay,duration) / duration * 100) : 0);
         retObj.duration = duration;
         retObj.passDay = passDay;
         retObj.actualPercentage = actualPercentage;
@@ -60,7 +60,7 @@ class commonClass {
             retObj.status = 'delay';
             retObj.delayDays = delayDays;
         } else {
-            if (retObj.forcastedPercentage > actualPercentage) {
+            if (retObj.forecastedPercentage > actualPercentage) {
                 retObj.status = 'risk';
             } else {
                 retObj.status = 'good';
@@ -100,6 +100,7 @@ class commonClass {
         }
     }
 
+    //d1 > d2, postive
     datetimeDifference(dateStr1, dateStr2) {
         let date1 = this.datetimeTransferToDate(dateStr1);
         let date2 = this.datetimeTransferToDate(dateStr2);
@@ -404,9 +405,12 @@ class commonClass {
             window.localStorage.setItem(title, JSON.stringify(content))
 
         } catch (e) {
-            //this.clearLocalStorage();
+            let storage = window.localStorage;
+            for (var i = 0; i < storage.length; i++) {
+                console.log(storage.key(i))
+            }
             console.log(e);
-            //window.localStorage.setItem(title, JSON.stringify(content))
+            window.localStorage.setItem(title, JSON.stringify(content))
         } finally {
 
         }
