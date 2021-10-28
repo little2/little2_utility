@@ -23,9 +23,11 @@ class commonClass {
                 "data": param.data || "",
                 "dataType": param.dataType || "json",
                 "crossDomain": param.crossDomain || true,
+                "headers": param.headers || {},
                 "cache": param.cache || false,
                 "xhrFields": param.xhrFields || "",
                 "beforeSend": param.beforeSend || "",
+                "contentType": param.contentType || "application/x-www-form-urlencoded; charset=UTF-8",
                 "success": res => {
                     resovle(res);
                 },
@@ -35,6 +37,10 @@ class commonClass {
             })
         })
     }
+
+
+
+
 
 
     checkProgress(startDatetime, endDatetime, actualPercentage) {
