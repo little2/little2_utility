@@ -134,6 +134,7 @@ class commonClass {
             retObj.HIS = dtObj.getHours() + ':' + dtObj.getMinutes() + ':' + dtObj.getSeconds();
             retObj.YMDHIS = retObj.YMD + ' ' + retObj.HIS;
             retObj.timestamp = dtObj.getTime();
+            retObj.YYYYMMDD = dtObj.getFullYear() + this.zeroFill((dtObj.getMonth() + 1),2,"left") + this.zeroFill(dtObj.getDate(),2,"left");
             retObj.source = dateTimeValue;
             retObj.pretty = this.prettyDatetime(dateTimeValue);
             retObj.dataObj = dtObj;
@@ -440,5 +441,19 @@ class commonClass {
         }
         return result;
     }
+
+    substring(str, maxLength) {
+        //let strLen = str.replace(/[^\x00-\xff]/g, "xx").length;
+        let subLen = 0;
+        let substr = str;
+        for (var i = 0; i < str.length; i++) {
+          subLen += str.charAt(i).match(/[^\x00-\xff]/ig) ? 2 : 1;
+          if (maxLength <= subLen) {
+            substr = str.slice(0, i + 1) + ((i == str.length) ? "" : "...");
+            break;
+          }
+        }
+        return substr;
+      }
 
 }
