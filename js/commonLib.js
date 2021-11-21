@@ -443,6 +443,7 @@ class commonClass {
     }
 
     substring(str, maxLength) {
+        if(!str) return '';
         //let strLen = str.replace(/[^\x00-\xff]/g, "xx").length;
         let subLen = 0;
         let substr = str;
