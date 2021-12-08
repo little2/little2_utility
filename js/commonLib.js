@@ -184,7 +184,7 @@ class commonClass {
             //date = new Date(inputValue);
             return inputValue;
         } else {
-            console.log(inputValue + ' unknown type:' + typeof (inputValue) + ' value:' + inputValue)
+            console.log('inputValue:'+inputValue + ', unknown type:' + typeof (inputValue) + ' ,value:' + inputValue)
         }
     }
 
@@ -198,6 +198,8 @@ class commonClass {
     }
 
     getYearWeek(dateTimeValue, return_type) {
+        if(dateTimeValue=="Invalid Date"||dateTimeValue==null) return null;
+       
         let thisDate = this.datetimeTransferToDate(dateTimeValue);
         let thisYearDate = new Date(thisDate.getFullYear(), 0, 1);
         //let day1 = thisDate.getDay() || 7;
