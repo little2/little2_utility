@@ -126,11 +126,17 @@ class commonClass {
 
             let MMM = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+            let WD = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            let SWD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+
             var retObj = {};
             retObj.MMM = MMM[dtObj.getMonth()];
             retObj.MMMDD = retObj.MMM + "-" + dtObj.getDate() + this.getOrdinalNum(dtObj.getDate());
             retObj.YMD = dtObj.getFullYear() + '/' + (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
             retObj.MD = (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
+            retObj.MDSW = (dtObj.getMonth() + 1) + '/' + dtObj.getDate()+'('+SWD[dtObj.getDay()]+')';
+            retObj.WD = WD[dtObj.getDay()];
             retObj.HIS = dtObj.getHours() + ':' + dtObj.getMinutes() + ':' + dtObj.getSeconds();
             retObj.YMDHIS = retObj.YMD + ' ' + retObj.HIS;
             retObj.timestamp = dtObj.getTime();
