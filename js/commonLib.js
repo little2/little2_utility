@@ -32,6 +32,7 @@ class commonClass {
                     resovle(res);
                 },
                 "error": err => {
+                    console.log(err);
                     reject(err);
                 }
             })
