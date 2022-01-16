@@ -32,7 +32,8 @@ class commonClass {
                     resovle(res);
                 },
                 "error": err => {
-                    console.log(err);
+                    // console.log('ajax error');
+                    // console.log(err);
                     reject(err);
                 }
             })
@@ -340,10 +341,7 @@ class commonClass {
 
         }
 
-
-
         retObj['username'] = account; //全小寫, dylan.cho        
-
         retObj['account'] = account; //全小寫, dylan.cho
         retObj['englishName'] = accountRow[0]; //首字母大寫, 只有名 , Dylan
         retObj['englishFullName'] = accountRow.join(' '); //首字母大寫  Dylan Cho
