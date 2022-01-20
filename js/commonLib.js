@@ -464,4 +464,30 @@ class commonClass {
         return substr;
       }
 
+    //去除前後(左右)空白
+    trim(str) {
+        if(str)
+        {
+            return str.replace(/(^[\s]*)|([\s]*$)/g, "");
+        }
+        
+    }
+
+    //去左空白
+    lTrim(str) {
+        if(str)
+        {
+            return str.replace(/(^[\s]*)/g, "");
+        }
+    }
+
+    //去除右空白
+    rTrim(str) {
+        if(str)
+        {
+            return str.replace(/([\s]*$)/g, "");
+        }
+    }
+
+
 }
