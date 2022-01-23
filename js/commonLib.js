@@ -58,6 +58,7 @@ class commonClass {
         let passDay = this.datetimeDifference(today, startDatetime).day;
         let duration = this.datetimeDifference(endDatetime, startDatetime).day;
         let delayDays = 0;
+        retObj.delayDays = delayDays;
         retObj.forecastedPercentage = (passDay <= 0 )? 0 : ( (duration > 0) ? Math.ceil( Math.min(passDay,duration) / duration * 100) : 0);
         retObj.duration = duration;
         retObj.passDay = passDay;
@@ -306,10 +307,12 @@ class commonClass {
 
 
     prettyUserName(inputValue, sourceType) {
-        if (inputValue == null || inputValue == '') {
+        inputValue = inputValue && inputValue.trim();
+       
+        if (inputValue == null || inputValue == '' || inputValue == undefined) {
             return {};
         }
-
+   
 
         let retObj = {};
         let account = (inputValue).toLowerCase().trim();
@@ -325,6 +328,13 @@ class commonClass {
             default:
                 break;
         }
+
+        if(account.indexOf('@')>0)
+        {
+            var ownerRow = (account).split('@');
+            account = ownerRow[0];
+        }
+
 
         let accountRow = account.split('.');
         for (let i = 0; i < accountRow.length; i++) {
@@ -349,10 +359,17 @@ class commonClass {
         retObj['fullName'] = account; //	首字母大寫 , Dylan Cho 卓政達
         retObj['chineseName'] = account; //卓政達
 
+        retObj=this.prettyUserNameAddition(retObj);
+
         return retObj;
 
     }
 
+    prettyUserNameAddition(retObj)
+    {
+        return retObj;
+    }
+    
 
     prettyDatetime(time) {
 
