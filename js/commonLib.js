@@ -226,7 +226,7 @@ class commonClass {
         }
 
         let YTD = this.datetimeDifference(thisDate, thisYearDate).day;
-        let weekNum = Math.floor((YTD + stuffDay) / 7) + 1
+        let weekNum = thisDate.getFullYear()*100 + (Math.floor((YTD + stuffDay) / 7) + 1);
 
         return weekNum;
 
