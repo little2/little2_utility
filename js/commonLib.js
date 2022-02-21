@@ -309,10 +309,11 @@ class commonClass {
     prettyUserName(inputValue, sourceType) {
         inputValue = inputValue && inputValue.trim();
        
+        
         if (inputValue == null || inputValue == '' || inputValue == undefined) {
             return {};
         }
-   
+        
 
         let retObj = {};
         let account = (inputValue).toLowerCase().trim();
