@@ -194,6 +194,7 @@ class commonClass {
             return inputValue;
         } else {
             console.log('inputValue:'+inputValue + ', unknown type:' + typeof (inputValue) + ' ,value:' + inputValue)
+           
         }
     }
 
@@ -428,6 +429,55 @@ class commonClass {
     }
 
 
+    setStorage(content,type,title) {
+        if (!title) title = this.localStorageTitle;
+
+        if (!type) type = 'session';
+
+        let storage;
+        if(type == 'session')
+        {
+            console.log(type);
+            storage= sessionStorage;
+        }
+        else
+        {
+            console.log('lo',type);
+            storage= window.localStorage;
+        }
+        
+        try {
+            storage.setItem(title, JSON.stringify(content))
+
+        } catch (e) {
+            for (var i = 0; i < storage.length; i++) {
+                console.log(storage.key(i))
+            }
+            console.log(e);
+            storage.setItem(title, JSON.stringify(content))
+        } 
+    }
+
+    getStorage(type,title) {
+        title = title || this.localStorageTitle;
+        type = type || 'session';
+
+        let storage;
+        if(type == 'session')
+        {
+            storage= sessionStorage;
+        }
+        else
+        {
+            storage= window.localStorage;
+        }
+
+        return JSON.parse(storage.getItem(title));
+
+    }
+
+
+
 
 
     setLocalStorage(content, title) {
@@ -443,9 +493,7 @@ class commonClass {
             }
             console.log(e);
             window.localStorage.setItem(title, JSON.stringify(content))
-        } finally {
-
-        }
+        } 
     }
 
     clearLocalStorage() {
@@ -454,6 +502,36 @@ class commonClass {
             window.localStorage.removeItem(storage.key(i))
         }
     }
+
+    getCacheSize(t){
+        t = t == undefined ? "l" : t;
+        var obj = "";
+        if(t==='l'){
+            if(!window.localStorage) {
+                console.log('浏览器不支持localStorage');
+            }else{
+                obj = window.localStorage;
+            }
+        }else{
+            if(!window.sessionStorage) {
+                console.log('浏览器不支持sessionStorage');
+            }else{
+                obj = window.sessionStorage;
+            }
+        }
+        if(obj!==""){
+            var size = 0;
+            for(let item in obj) {
+                if(obj.hasOwnProperty(item)) {
+                    size += obj.getItem(item).length;
+                }
+            }
+            console.log('当前已用存储：' + (size / 1024).toFixed(2) + 'KB');
+        }
+    }
+
+
+
 
     // zerofill(numb, 5, 'left/right');
     zeroFill(numb, legth, direction) {
@@ -504,6 +582,36 @@ class commonClass {
         if(str)
         {
             return str.replace(/([\s]*$)/g, "");
+        }
+    }
+
+    setCookie(cname,cvalue,exdays){
+        var d = new Date();
+        d.setTime(d.getTime()+(exdays*this.divisors.days));
+        var expires = "expires="+d.toGMTString();
+        document.cookie = cname+"="+cvalue+"; "+expires;
+    }
+    
+    getCookie(cname){
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name)==0) { return c.substring(name.length,c.length); }
+        }
+        return "";
+    }
+    
+    checkCookie(){
+        var user=getCookie("username");
+        if (user!=""){
+            alert("欢迎 " + user + " 再次访问");
+        }
+        else {
+            user = prompt("请输入你的名字:","");
+              if (user!="" && user!=null){
+                setCookie("username",user,30);
+            }
         }
     }
 
