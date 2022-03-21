@@ -120,10 +120,14 @@ class commonClass {
     }
 
     dateDatetimeFormat(dateTimeValue) {
+       
         // if(!dateTimeValue || dateTimeValue==undefined) {
         //     console.log('dateTimeValue is '+dateTimeValue);
         //     return false;
         // }
+ 
+  
+        
         try {
             let dtObj = this.datetimeTransferToDate(dateTimeValue);
 
@@ -182,9 +186,16 @@ class commonClass {
     }
 
     datetimeTransferToDate(inputValue) {
+
+        // if(inputValue=="")
+        // {
+        //     console.log('inputValue is null : datetimeTransferToDate:inputValue:'+inputValue + ', unknown type:' + typeof (inputValue) + ' ,value:' + inputValue)
+        // }
+
         if (typeof (inputValue) == 'string') {
-            let _str = inputValue.replace(/-/g, '/'); // "2010/08/01";            
-            return new Date(_str);
+                let _str = inputValue.replace(/-/g, '/'); // "2010/08/01";      
+                return new Date(_str);
+           
         }
         if (typeof (inputValue) == 'number') {
             return new Date(inputValue);
@@ -193,7 +204,7 @@ class commonClass {
             //date = new Date(inputValue);
             return inputValue;
         } else {
-            console.log('inputValue:'+inputValue + ', unknown type:' + typeof (inputValue) + ' ,value:' + inputValue)
+            console.log('datetimeTransferToDate:inputValue:'+inputValue + ', unknown type:' + typeof (inputValue) + ' ,value:' + inputValue)
            
         }
     }
@@ -210,19 +221,21 @@ class commonClass {
     getYearWeek(dateTimeValue, return_type) {
         if(dateTimeValue=="Invalid Date"||dateTimeValue==null) return null;
        
-        let thisDate = this.datetimeTransferToDate(dateTimeValue);
-        let thisYearDate = new Date(thisDate.getFullYear(), 0, 1);
+        let thisDateOriginal = this.datetimeTransferToDate(dateTimeValue);
+        let thisDate = new Date(thisDateOriginal.getFullYear(), thisDateOriginal.getMonth(), thisDateOriginal.getDate(),23,59,59);
+
+        let thisYearDate = new Date(thisDateOriginal.getFullYear(), 0, 1);
         //let day1 = thisDate.getDay() || 7;
         let dayOf1day = thisYearDate.getDay() || 7;
         let stuffDay; //to fill stuff day make the 1st day of year 7 days.
 
         switch (return_type) {
             case 2: //Start from Monday
-                stuffDay = dayOf1day - 1;
+                stuffDay = dayOf1day;
                 break;
 
             default: //start from Sunday
-                stuffDay = dayOf1day;
+                stuffDay = dayOf1day-1;
                 break;
         }
 
