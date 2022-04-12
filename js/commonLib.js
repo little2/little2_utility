@@ -126,17 +126,11 @@ class commonClass {
         //     return false;
         // }
  
-  
-        
         try {
             let dtObj = this.datetimeTransferToDate(dateTimeValue);
-
             let MMM = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
             let WD = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-            let SWD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-
+            let SWD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
             var retObj = {};
             retObj.MMM = MMM[dtObj.getMonth()];
             retObj.MMMDD = retObj.MMM + "-" + dtObj.getDate() + this.getOrdinalNum(dtObj.getDate());
