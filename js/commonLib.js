@@ -136,7 +136,7 @@ class commonClass {
             retObj.MMMDD = retObj.MMM + "-" + dtObj.getDate() + this.getOrdinalNum(dtObj.getDate());
             retObj.YMD = dtObj.getFullYear() + '/' + (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
             retObj.MD = (dtObj.getMonth() + 1) + '/' + dtObj.getDate();
-            retObj.MDSW = (dtObj.getMonth() + 1) + '/' + dtObj.getDate()+'('+SWD[dtObj.getDay()]+')';
+            retObj.MDSW = (dtObj.getMonth() + 1) + '/' + dtObj.getDate()+' ('+SWD[dtObj.getDay()]+')';
             retObj.WD = WD[dtObj.getDay()];
             retObj.HIS = dtObj.getHours() + ':' + dtObj.getMinutes() + ':' + dtObj.getSeconds();
             retObj.YMDHIS = retObj.YMD + ' ' + retObj.HIS;
